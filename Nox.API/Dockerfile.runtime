@@ -1,0 +1,5 @@
+﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY docker-out/ .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "Nox.API.dll"]

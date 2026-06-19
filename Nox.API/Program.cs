@@ -2,6 +2,7 @@ using Microsoft.OpenApi.Models;
 using Nox.API.Application.Interfaces;
 using Nox.API.Application.Services;
 using Nox.API.Infrastructure.Sources;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,12 @@ builder.Services.AddScoped<ITransactionSource, BankATransactionSource>();
 builder.Services.AddScoped<ITransactionSource, BankBTransactionSource>();
 builder.Services.AddScoped<TransactionCategorizationService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()
+        );
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
